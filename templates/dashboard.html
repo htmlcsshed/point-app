@@ -1,0 +1,29 @@
+<h2>{{ username }} のダッシュボード</h2>
+<p>ポイント：{{ points }}pt</p>
+
+<h3>ポイント送信</h3>
+<form method="post" action="/send">
+    <select name="to">
+        {% for name in users %}
+            {% if name != username %}
+                <option value="{{ name }}">{{ name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <input name="amount" type="number">
+    <button>送信</button>
+</form>
+
+{% if is_admin %}
+<h3>管理者ポイント付与</h3>
+<form method="post" action="/add">
+    <select name="to">
+        {% for name in users %}
+            <option value="{{ name }}">{{ name }}</option>
+        {% endfor %}
+    </select>
+    <input name="amount" type="number">
+    <button>付与</button>
+</form>
+{% endif %}
+
