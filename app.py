@@ -6,7 +6,7 @@ app.secret_key = "secret"
 
 # 仮ユーザーデータ（DBの代わり）
 users = {
-    "admin": {"password": "adminn", "points": 0, "is_admin": True},
+    "admin": {"password": "admin", "points": 0, "is_admin": True},
     "alice": {"password": "alice", "points": 100, "is_admin": False},
     "bob":   {"password": "bob",   "points": 50,  "is_admin": False},
 }
