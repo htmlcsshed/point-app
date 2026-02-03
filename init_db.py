@@ -1,31 +1,34 @@
 import sqlite3
 
 conn = sqlite3.connect("point.db")
-c = conn.cursor()
+cur = conn.cursor()
 
-c.execute("""
-CREATE TABLE users (
+cur.execute("""
+CREATE TABLE IF NOT EXISTS users (
     username TEXT PRIMARY KEY,
-    password TEXT,
-    points INTEGER,
-    is_admin INTEGER
+    password TEXT NOT NULL,
+    points INTEGER NOT NULL,
+    is_admin INTEGER NOT NULL
 )
 """)
 
-# 初期データ
-users = [
-    ("admin", "admin", 0, 1),
-    ("alice", "alice", 100, 0),
-    ("bob",   "bob",   50, 0),
-]
+# 初期管理者（存在しなければ作成）
+admin_user = "admin"
+admin_pass = "admin"
 
-c.executemany(
-    "INSERT INTO users VALUES (?, ?, ?, ?)",
-    users
+cur.execute(
+    "SELECT * FROM users WHERE username=?",
+    (admin_user,)
 )
+
+if not cur.fetchone():
+    cur.execute(
+        "INSERT INTO users VALUES (?, ?, 1000, 1)",
+        (admin_user, admin_pass)
+    )
 
 conn.commit()
 conn.close()
 
-print("DB initialized")
+print("DB初期化完了")
 

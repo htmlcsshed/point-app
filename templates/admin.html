@@ -1,0 +1,29 @@
+<h2>管理者ページ</h2>
+
+<h3>ユーザー一覧</h3>
+<ul>
+{% for u in users %}
+  <li>
+    {{ u["username"] }} / {{ u["points"] }}pt
+    {% if u["is_admin"] == 0 %}
+      <a href="/delete/{{ u['username'] }}">削除</a>
+    {% else %}
+      （管理者）
+    {% endif %}
+  </li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<h3>ユーザー追加</h3>
+<form method="post" action="/admin/add_user">
+  <input name="username" placeholder="ユーザー名" required>
+  <input name="password" type="password" placeholder="パスワード" required>
+  <input name="points" type="number" value="100" required>
+  <button>追加</button>
+</form>
+
+<hr>
+<a href="/dashboard">ダッシュボードへ戻る</a>
+
